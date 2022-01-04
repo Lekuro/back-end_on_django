@@ -1,0 +1,102 @@
+--> inside git project
+python3 -m venv venv
+source venv/bin/activate
+touch used_comands.txt
+pip install Django
+django-admin startproject books
+cd books
+--> inside django project
+./manage.py startapp store
+create local_config.py and add there SECRET_KEY
+
+--> for postgres
+createuser books_user         i create on pgAdmin add property can login and password but he use without password
+createdb books_db -0books_user            i create on pgAdmin add owner
+he install psycopg2 but not last version
+install psycopg2-binary
+DATABAASE:
+https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
+./manage.py migrate
+
+-->
+./manage.py createsuperuser
+./manage.py runserver      ctrl+C
+./manage.py makemigrations
+./manage.py migrate
+
+-->
+./manage.py shell
+>>> from store.models import Book
+>>> Book.objects.create(name='For Whom The Bell Tolls', price='1000.00')
+<Book: Book object (1)>
+>>> Book.objects.create(name='The collector', price='1000.00')
+<Book: Book object (2)>
+>>>ctrl+D                      for exit
+
+-->
+./manage.py shell
+>>> from store.logic import operations
+>>> operations(3,7,'-')
+-4
+>>> operations(3,7,'+')
+10
+>>> operations(3,7,'*')
+21
+>>> ctrl+D                     for exit
+
+video_02_test
+
+./manage.py test .
+./manage.py test store
+./manage.py test store.tests
+
+--> for postgres
+createuser -s -P superadmin # -s mean superadmin, -P don't write password, superadmin - just name
+psql --username=postgres books_db
+ALTER USER books_user CREATEDB;
+q                         for exit
+
+./manage.py test store.tests.test_api
+./manage.py test store.tests.test_serializers
+pip freeze > requirements.txt
+coverage run --source='.' ./manage.py test .
+coverage report
+
+video_03_filters
+
+./manage.py shell
+>>> from store.models import Book
+>>> Book.objects.create(price='500.00',name='Perfume')
+<Book: Book object (7)>
+>>> ctrl+D
+./manage.py makemigrations
+./manage.py migrate
+./manage.py runserver
+
+http://127.0.0.1:8000/book/                       just show default
+http://127.0.0.1:8000/book/?price=500             work filter
+http://127.0.0.1:8000/book/?search=Hemingway      work search
+http://127.0.0.1:8000/book/?ordering=price        work ordering
+http://127.0.0.1:8000/book/?ordering=-price       work ordering
+http://127.0.0.1:8000/book/?ordering=author_name  work ordering
+http://127.0.0.1:8000/book/?ordering=-author_name work ordering
+
+Alt+Shift+Insert switch between normal and column editing
+https://www.jetbrains.com/help/pycharm/multicursor.html#column_selection
+
+./manage.py test store.tests.test_api.BooksApiTestCase
+./manage.py test store.tests.test_api.BooksApiTestCase.test_get_list
+./manage.py test store.tests.test_api.BooksApiTestCase.test_get_filter
+./manage.py test store.tests.test_api.BooksApiTestCase.test_get_search
+
+video 04 OAuth
+
+https://python-social-auth.readthedocs.io/en/latest/configuration/django.html
+https://python-social-auth.readthedocs.io/en/latest/backends/github.html?highlight=github
+pip install social-auth-app-django
+https://www.digitalocean.com/community/tutorials/oauth-2-ru
+http://127.0.0.1:8000/auth/
+http://127.0.0.1:8000/book/
+
+video 05 CRUD
+
