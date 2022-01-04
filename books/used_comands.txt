@@ -100,4 +100,13 @@ https://www.digitalocean.com/community/tutorials/oauth-2-ru
 http://127.0.0.1:8000/auth/
 http://127.0.0.1:8000/book/
 
-video 05 CRUD in file: used_postman.py
+video 05 CRUD in file: used_postman.txt
+
+video 06 permissions
+
+./manage.py makemigrations
+./manage.py migrate
+./manage.py test store.tests.test_api.BooksApiTestCase.test_create
+./manage.py test store.tests.test_api.BooksApiTestCase
+./manage.py test store.tests.test_api.BooksApiTestCase.test_update_not_owner
+./manage.py test store.tests.test_api.BooksApiTestCase.test_update_not_owner_but_staff
