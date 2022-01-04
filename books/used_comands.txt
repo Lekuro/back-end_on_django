@@ -88,6 +88,8 @@ https://www.jetbrains.com/help/pycharm/multicursor.html#column_selection
 ./manage.py test store.tests.test_api.BooksApiTestCase.test_get_list
 ./manage.py test store.tests.test_api.BooksApiTestCase.test_get_filter
 ./manage.py test store.tests.test_api.BooksApiTestCase.test_get_search
+./manage.py test
+
 
 video 04 OAuth
 
@@ -98,5 +100,4 @@ https://www.digitalocean.com/community/tutorials/oauth-2-ru
 http://127.0.0.1:8000/auth/
 http://127.0.0.1:8000/book/
 
-video 05 CRUD
-
+video 05 CRUD in file: used_postman.py

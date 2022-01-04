@@ -1,0 +1,86 @@
+video 05 CRUD
+
+# install postman
+sudo apt update
+sudo apt upgrade
+sudo snap install postman
+
+# postman login
+history:
++
+GET   127.0.0.1:8000/book/
+Send
+Headers:
+Key:Cookie Value: sessionid=hash <- from Chrome Network
+Send
+
+GET -> POST
+Send
+Key:Cookie Value: csrftoken=hash <- from Chrome Network
+Key:X-CSRFToken Value: hash^ <- everything after csrftoken= from previous line
+Send
+
+Body:
+raw
+Text -> JSON
+{
+    "name": "Python 3",
+    "price": 150,
+    "author_name":"Mark Summerfield"
+}
+Send
+    {
+        "id": 9,
+        "name": "Python 3",
+        "price": "150.00",
+        "author_name": "Mark Summerfield"
+    }
+
+POST -> PUT
+127.0.0.1:8000/book/9/
+{
+    "name": "Programming in Python 3",
+    "price": 150,
+    "author_name":"Mark Summerfield"
+}
+Send
+    {
+        "id": 9,
+        "name": "Programming in Python 3",
+        "price": "150.00",
+        "author_name": "Mark Summerfield"
+    }
+
+PUT -> GET
+127.0.0.1:8000/book/7/
+Send
+    {
+        "id": 7,
+        "name": "Perfume",
+        "price": "500.00",
+        "author_name": "Petrick Suskind"
+    }
+
+GET -> DELETE
+127.0.0.1:8000/book/10/
+Send
+    {
+        "detail": "Not found."
+    }
+
+DELETE -> PATCH
+127.0.0.1:8000/book/9/
+{
+    "name": "Programming in Python 3"
+}
+Send
+    {
+        "id": 9,
+        "name": "Programming in Python 3",
+        "price": "150.00",
+        "author_name": "Mark Summerfield"
+    }
+
+./manage.py test
+./manage.py test store.tests.test_api.BooksApiTestCase.test_create
+./manage.py test store.tests.test_api.BooksApiTestCase.test_update
