@@ -9,18 +9,18 @@ from store.serializers import BookSerializer
 
 class BooksSerializerTestCase(TestCase):
     def test_serializer(self):
-        user1 = User.objects.create(username='test_user1')
-        user2 = User.objects.create(username='test_user2')
-        user3 = User.objects.create(username='test_user3')
-        book_1 = Book.objects.create(name='Test book 1', price=25, author_name='Author 1')
+        user1 = User.objects.create(username='test_user1', first_name='Ivan', last_name='Petrov')
+        user2 = User.objects.create(username='test_user2', first_name='Ivan', last_name='Sidorov')
+        user3 = User.objects.create(username='test_user3', first_name='1', last_name='2')
+        book_1 = Book.objects.create(name='Test book 1', price=25, author_name='Author 1', owner=user1)
         book_2 = Book.objects.create(name='Test book 2', price=55, author_name='Author 2')
 
         UserBookRelation.objects.create(user=user1, book=book_1, like=True, rate=5)
         UserBookRelation.objects.create(user=user2, book=book_1, like=True, rate=5)
         UserBookRelation.objects.create(user=user3, book=book_1, like=True, rate=4)
 
-        UserBookRelation.objects.create(user=user1, book=book_2, like=True , rate=3)
-        UserBookRelation.objects.create(user=user2, book=book_2, like=True , rate=4)
+        UserBookRelation.objects.create(user=user1, book=book_2, like=True, rate=3)
+        UserBookRelation.objects.create(user=user2, book=book_2, like=True, rate=4)
         UserBookRelation.objects.create(user=user3, book=book_2, like=False)
 
         # data = BookSerializer([book_1, book_2], many=True).data # only a likes_count
@@ -39,6 +39,21 @@ class BooksSerializerTestCase(TestCase):
                 'author_name': 'Author 1',
                 'annotated_likes': 3,
                 'rating': '4.67',
+                'owner_name': 'test_user1',
+                'readers': [
+                    {
+                        'first_name': 'Ivan',
+                        'last_name': 'Petrov',
+                    },
+                    {
+                        'first_name': 'Ivan',
+                        'last_name': 'Sidorov',
+                    },
+                    {
+                        'first_name': '1',
+                        'last_name': '2',
+                    },
+                ],
             },
             {
                 'id': book_2.id,
@@ -47,7 +62,22 @@ class BooksSerializerTestCase(TestCase):
                 'author_name': 'Author 2',
                 'annotated_likes': 2,
                 'rating': '3.50',
+                'owner_name': '',
+                'readers': [
+                    {
+                        'first_name': 'Ivan',
+                        'last_name': 'Petrov',
+                    },
+                    {
+                        'first_name': 'Ivan',
+                        'last_name': 'Sidorov',
+                    },
+                    {
+                        'first_name': '1',
+                        'last_name': '2',
+                    },
+                ],
             },
         ]
-        #print('rating:', data)
+        # print('rating:', data)
         self.assertEqual(expected_data, data)
