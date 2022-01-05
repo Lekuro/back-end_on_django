@@ -1,3 +1,4 @@
+from django.db.models import Count, Case, When, Avg
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from django_filters.rest_framework import DjangoFilterBackend
@@ -12,7 +13,11 @@ from store.serializers import BookSerializer, UserBookRelationSerializer
 
 # http://127.0.0.1:8000/book/?format=json
 class BookViewSet(ModelViewSet):
-    queryset = Book.objects.all()
+    # queryset = Book.objects.all() # enought for likes_count but not enought for annotated_likes
+    queryset = Book.objects.all().annotate(
+            annotated_likes=Count(Case(When(userbookrelation__like=True, then=1))),
+            rating=Avg('userbookrelation__rate'),
+        ).order_by('id')
     serializer_class = BookSerializer
     permission_classes = [IsOwnerOrStaffOrReadOnly]  # IsAuthenticated IsAuthenticatedOrReadOnly
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]

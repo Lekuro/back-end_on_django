@@ -8,6 +8,7 @@ cd books
 --> inside django project
 ./manage.py startapp store
 create local_config.py and add there SECRET_KEY
+pip install djangorestframework
 
 --> for postgres
 createuser books_user         i create on pgAdmin add property can login and password but he use without password
@@ -136,3 +137,8 @@ video 07 rating bookmarks
 ./manage.py test store.tests.test_api.BooksRelationTestCase.test_rate_wrong
 
 shift+shift pyCharm run look inside or outside project
+
+video 08 annotate
+
+./manage.py test store.tests.test_serializers
+./manage.py test store.tests
