@@ -110,3 +110,29 @@ video 06 permissions
 ./manage.py test store.tests.test_api.BooksApiTestCase
 ./manage.py test store.tests.test_api.BooksApiTestCase.test_update_not_owner
 ./manage.py test store.tests.test_api.BooksApiTestCase.test_update_not_owner_but_staff
+
+video 07 rating bookmarks
+
+./manage.py makemigrations
+./manage.py migrate
+
+./manage.py shell
+>>> from django.contrib.auth.models import User
+>>> user=User.objects.get(id=2)
+>>> user.books.all()
+<QuerySet [<Book: Id 7: Perfume>, <Book: Id 2: The collector>]>
+>>> admin=User.objects.get(id=1)
+>>> admin
+<User: admin>
+>>> admin.my_books.all()
+<QuerySet [<Book: Id 1: For Whom The Bell Tolls>, <Book: Id 9: Programming in Python 3>]>
+>>> admin.books.all()
+<QuerySet []>
+>>>ctrl+D
+
+./manage.py test store.tests.test_api.BooksRelationTestCase
+./manage.py test store.tests.test_api.BooksRelationTestCase.test_like
+./manage.py test store.tests.test_api.BooksRelationTestCase.test_rate
+./manage.py test store.tests.test_api.BooksRelationTestCase.test_rate_wrong
+
+shift+shift pyCharm run look inside or outside project
