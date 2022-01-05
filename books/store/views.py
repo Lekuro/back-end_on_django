@@ -41,7 +41,7 @@ class UserBookRelationView(UpdateModelMixin, GenericViewSet):
     def get_object(self):
         obj, created = UserBookRelation.objects.get_or_create(user=self.request.user,
                                                               book_id=self.kwargs['book'])
-        print('created', created)
+        # print('created', created)
         return obj
 
 

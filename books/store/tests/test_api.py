@@ -1,8 +1,10 @@
 import json
 
 from django.contrib.auth.models import User
+from django.db import connection
 from django.db.models import Count, Case, When, Avg
 from django.urls import reverse
+from django.test.utils import CaptureQueriesContext
 from rest_framework import status
 from rest_framework.exceptions import ErrorDetail
 from rest_framework.test import APITestCase
@@ -22,7 +24,11 @@ class BooksApiTestCase(APITestCase):
     def test_get_list(self):
         url = reverse('book-list')
         # print('url', url)
-        responce = self.client.get(url)
+        # that test prefetch_related, select_releted
+        with CaptureQueriesContext(connection) as queries:
+            responce = self.client.get(url)
+            self.assertEqual(2,len(queries))
+            # print('len queries: ', len(queries))
         # print('responce', responce)
         # print('responce.data', responce.data)
         # when added annotated_likes must change:
@@ -30,9 +36,9 @@ class BooksApiTestCase(APITestCase):
             annotated_likes=Count(Case(When(userbookrelation__like=True, then=1))),
             rating=Avg('userbookrelation__rate'),
         ).order_by('id')
-        #serializer_data = BookSerializer([self.book_1, self.book_2, self.book_3], many=True).data
+        # serializer_data = BookSerializer([self.book_1, self.book_2, self.book_3], many=True).data
         serializer_data = BookSerializer(books, many=True).data
-        print('serializer_data', serializer_data)
+        #print('serializer_data', serializer_data)
         self.assertEqual(status.HTTP_200_OK, responce.status_code)
         self.assertEqual(serializer_data, responce.data)
         self.assertEqual(serializer_data[0]['rating'], '5.00')
@@ -49,26 +55,26 @@ class BooksApiTestCase(APITestCase):
             annotated_likes=Count(Case(When(userbookrelation__like=True, then=1))),
             rating=Avg('userbookrelation__rate'),
         ).order_by('id')
-        #serializer_data = BookSerializer([self.book_2, self.book_3], many=True).data
+        # serializer_data = BookSerializer([self.book_2, self.book_3], many=True).data
         serializer_data = BookSerializer(books, many=True).data
-        print('serializer_data', serializer_data)
+        # print('serializer_data', serializer_data)
         self.assertEqual(status.HTTP_200_OK, responce.status_code)
         self.assertEqual(serializer_data, responce.data)
 
     def test_get_search(self):
         url = reverse('book-list')
-        print('url', url)
+        # print('url', url)
         responce = self.client.get(url, data={'search': 'Author 1'})
-        print('responce', responce)
-        print('responce.data', responce.data)
+        # print('responce', responce)
+        # print('responce.data', responce.data)
         # when added annotated_likes must change:
         books = Book.objects.filter(id__in=(self.book_1.id, self.book_3.id)).annotate(
             annotated_likes=Count(Case(When(userbookrelation__like=True, then=1))),
             rating=Avg('userbookrelation__rate'),
         ).order_by('id')
-        #serializer_data = BookSerializer([self.book_1, self.book_3], many=True).data
+        # serializer_data = BookSerializer([self.book_1, self.book_3], many=True).data
         serializer_data = BookSerializer(books, many=True).data
-        print('serializer_data', serializer_data)
+        # print('serializer_data', serializer_data)
         self.assertEqual(status.HTTP_200_OK, responce.status_code)
         self.assertEqual(serializer_data, responce.data)
 
@@ -87,7 +93,7 @@ class BooksApiTestCase(APITestCase):
         self.assertEqual(status.HTTP_201_CREATED, responce.status_code)
         self.assertEqual(4, Book.objects.all().count())
         # video_06
-        print(Book.objects.last().owner)
+        # print(Book.objects.last().owner)
         self.assertEqual(self.user, Book.objects.last().owner)
 
     def test_update(self):
@@ -117,7 +123,7 @@ class BooksApiTestCase(APITestCase):
         self.client.force_login(self.user2)
         responce = self.client.put(url, data=json_data, content_type='application/json')
         self.assertEqual(status.HTTP_403_FORBIDDEN, responce.status_code)
-        print(responce.data)
+        # print(responce.data)
         error_msg = {'detail': ErrorDetail(string='You do not have permission to perform this action.',
                                            code='permission_denied')}
         self.assertEqual(error_msg, responce.data)
@@ -192,4 +198,3 @@ class BooksRelationTestCase(APITestCase):
         self.assertEqual(status.HTTP_400_BAD_REQUEST, responce.status_code, responce.data)  # print>responce.data
         error_msg = {'rate': [ErrorDetail(string='"6" is not a valid choice.', code='invalid_choice')]}
         self.assertEqual(error_msg, responce.data)
-
