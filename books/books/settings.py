@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    "debug_toolbar",
     'social_django',
 
     'store',
@@ -55,6 +56,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # testing
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    'debug_toolbar_force.middleware.ForceDebugToolbarMiddleware',  # after every url: ?debug-toolbar
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -145,3 +149,8 @@ REST_FRAMEWORK = {
 
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
 # SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+
+# for installed Django Debug Toolbar
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
