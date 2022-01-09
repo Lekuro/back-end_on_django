@@ -130,4 +130,5 @@ dmypy.json
 
 # I added
 .idea/
+.vscode/
 *local_config.py
