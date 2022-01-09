@@ -34,7 +34,7 @@ class BooksApiTestCase(APITestCase):
         # when added annotated_likes must change:
         books = Book.objects.all().annotate(
             annotated_likes=Count(Case(When(userbookrelation__like=True, then=1))),
-            rating=Avg('userbookrelation__rate'),
+            # rating=Avg('userbookrelation__rate'),
         ).order_by('id')
         # serializer_data = BookSerializer([self.book_1, self.book_2, self.book_3], many=True).data
         serializer_data = BookSerializer(books, many=True).data
@@ -53,7 +53,7 @@ class BooksApiTestCase(APITestCase):
         # when added annotated_likes must change:
         books = Book.objects.filter(id__in=(self.book_2.id, self.book_3.id)).annotate(
             annotated_likes=Count(Case(When(userbookrelation__like=True, then=1))),
-            rating=Avg('userbookrelation__rate'),
+            # rating=Avg('userbookrelation__rate'),
         ).order_by('id')
         # serializer_data = BookSerializer([self.book_2, self.book_3], many=True).data
         serializer_data = BookSerializer(books, many=True).data
@@ -70,7 +70,7 @@ class BooksApiTestCase(APITestCase):
         # when added annotated_likes must change:
         books = Book.objects.filter(id__in=(self.book_1.id, self.book_3.id)).annotate(
             annotated_likes=Count(Case(When(userbookrelation__like=True, then=1))),
-            rating=Avg('userbookrelation__rate'),
+            # rating=Avg('userbookrelation__rate'),
         ).order_by('id')
         # serializer_data = BookSerializer([self.book_1, self.book_3], many=True).data
         serializer_data = BookSerializer(books, many=True).data

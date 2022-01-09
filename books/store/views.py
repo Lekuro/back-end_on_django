@@ -15,9 +15,9 @@ from store.serializers import BookSerializer, UserBookRelationSerializer
 class BookViewSet(ModelViewSet):
     # queryset = Book.objects.all() # enought for likes_count but not enought for annotated_likes
     queryset = Book.objects.all().annotate(
-            annotated_likes=Count(Case(When(userbookrelation__like=True, then=1))),
-            rating=Avg('userbookrelation__rate'),
-        ).select_related('owner').prefetch_related('readers').order_by('id')
+        annotated_likes=Count(Case(When(userbookrelation__like=True, then=1))),
+        # rating=Avg('userbookrelation__rate'), # use before add in model
+    ).select_related('owner').prefetch_related('readers').order_by('id')
     # select_related>ForeinKey(one obj);
     # prefetch_related>ManyToMany(many obj);
     serializer_class = BookSerializer

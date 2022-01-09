@@ -151,3 +151,11 @@ http://127.0.0.1:8000/admin/
 https://django-debug-toolbar-force.readthedocs.io/en/latest/
 pip install django-debug-toolbar-force
 http://127.0.0.1:8000/book/?debug-toolbar
+./manage.py test store.tests
+
+video 10 kesh field
+
+./manage.py makemigrations
+./manage.py migrate
+./manage.py test store.tests.test_logic
+./manage.py test
