@@ -1,3 +1,7 @@
+source code:
+https://github.com/chepe4pi/books_lessons
+
+https://github.com/chepe4pi/books_lessons/tree/day_1
 --> inside git project
 python3 -m venv venv
 source venv/bin/activate
@@ -46,6 +50,7 @@ https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your
 >>> ctrl+D                     for exit
 
 video_02_test
+https://github.com/chepe4pi/books_lessons/tree/day_2
 
 ./manage.py test .
 ./manage.py test store
@@ -64,6 +69,7 @@ coverage run --source='.' ./manage.py test .
 coverage report
 
 video_03_filters
+https://github.com/chepe4pi/books_lessons/tree/day_3
 
 ./manage.py shell
 >>> from store.models import Book
@@ -93,6 +99,7 @@ https://www.jetbrains.com/help/pycharm/multicursor.html#column_selection
 
 
 video 04 OAuth
+https://github.com/chepe4pi/books_lessons/tree/day_4
 
 https://python-social-auth.readthedocs.io/en/latest/configuration/django.html
 https://python-social-auth.readthedocs.io/en/latest/backends/github.html?highlight=github
@@ -102,8 +109,10 @@ http://127.0.0.1:8000/auth/
 http://127.0.0.1:8000/book/
 
 video 05 CRUD in file: used_postman.txt
+https://github.com/chepe4pi/books_lessons/tree/day_5
 
 video 06 permissions
+https://github.com/chepe4pi/books_lessons/tree/day_6
 
 ./manage.py makemigrations
 ./manage.py migrate
@@ -113,6 +122,7 @@ video 06 permissions
 ./manage.py test store.tests.test_api.BooksApiTestCase.test_update_not_owner_but_staff
 
 video 07 rating bookmarks
+https://github.com/chepe4pi/books_lessons/tree/day_7
 
 ./manage.py makemigrations
 ./manage.py migrate
@@ -139,11 +149,13 @@ video 07 rating bookmarks
 shift+shift pyCharm run look inside or outside project
 
 video 08 annotate
+https://github.com/chepe4pi/books_lessons/tree/day_8
 
 ./manage.py test store.tests.test_serializers
 ./manage.py test store.tests
 
 video 09 ORM
+https://github.com/chepe4pi/books_lessons/tree/day_9
 
 https://django-debug-toolbar.readthedocs.io/en/latest/
 pip install django-debug-toolbar
@@ -154,6 +166,7 @@ http://127.0.0.1:8000/book/?debug-toolbar
 ./manage.py test store.tests
 
 video 10 kesh field
+https://github.com/chepe4pi/books_lessons/tree/day_10
 
 ./manage.py makemigrations
 ./manage.py migrate
