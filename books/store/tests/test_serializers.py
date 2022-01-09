@@ -81,7 +81,7 @@ class BooksSerializerTestCase(TestCase):
                 ],
             },
         ]
-        print('expected_data', expected_data)
-        data[0] = dict(data[0])
-        print('data', data)
+        # print('expected_data', expected_data)
+        # data[0] = dict(data[0])
+        # print('data', data)
         self.assertEqual(expected_data, data)

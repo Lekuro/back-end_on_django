@@ -28,12 +28,12 @@ class UserBookRelation(models.Model):
     in_bookmarks = models.BooleanField(default=False)
     rate = models.PositiveSmallIntegerField(choices=RATE_CHOICES, null=True)
 
+    def __str__(self):
+        return f'{self.user.username}: {self.book.name}, RATE={self.rate}'
+
     def __init__(self, *args, **kwargs):
         super(UserBookRelation, self).__init__(*args, **kwargs)
         self.old_rate = self.rate
-
-    def __str__(self):
-        return f'{self.user.username}: {self.book.name}, RATE={self.rate}'
 
     def save(self, *args, **kwargs):
         creating = not self.pk
